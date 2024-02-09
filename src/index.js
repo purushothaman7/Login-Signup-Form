@@ -1,8 +1,10 @@
 const express = require("express")
 const path = require("path")
 const app = express()
-// const hbs = require("hbs")
-const LogInCollection = require("./mongo")
+// import bcrypt from "bcrypt"
+const bcrypt = require('bcrypt');
+const { mongoConnect, User } = require("./mongo");
+const { log } = require("console");
 const port = process.env.PORT || 3000
 app.use(express.json())
 
@@ -18,7 +20,7 @@ app.use(express.static(publicPath))
 
 
 // hbs.registerPartials(partialPath)
-
+mongoConnect()
 
 app.get('/signup', (req, res) => {
     res.render('signup')
@@ -34,58 +36,52 @@ app.get('/', (req, res) => {
 // })
 
 app.post('/signup', async (req, res) => {
-    
-    // const data = new LogInCollection({
-    //     name: req.body.name,
-    //     password: req.body.password
-    // })
-    // await data.save()
 
-    const data = {
+    const hash = await bcrypt.hash(req.body.password, 10)
+
+    const data = new User({
         name: req.body.name,
-        password: req.body.password
-    }
-
-    const checking = await LogInCollection.findOne({ name: req.body.name })
-
-   try{
-    if (checking.name === req.body.name && checking.password===req.body.password) {
-        res.send("user details already exists")
-    }
-    else{
-        await LogInCollection.insertMany([data])
-    }
-   }
-   catch{
-    res.send("wrong inputs")
-   }
-
-    res.status(201).render("home", {
-        naming: req.body.name
+        password: hash
     })
+
+
+    try {
+        const checking = await User.findOne({ name: req.body.name })
+        if (checking) {
+            res.send("user details already exists")
+        }
+        else {
+            await data.save()
+            res.status(201).render("home", {
+                naming: req.body.name
+            })
+        }
+
+    }
+    catch (err) {
+        console.log(err);
+        res.render("signup")
+    }
+
 })
 
 
 app.post('/login', async (req, res) => {
-
+    const checking = await User.findOne({ name: req.body.name })
+    // console.log(req.body.password);
+    // console.log(checking.password);
     try {
-        const check = await LogInCollection.findOne({ name: req.body.name })
-
-        if (check.password === req.body.password) {
-            res.status(201).render("home", { naming: `${req.body.password}+${req.body.name}` })
+        const result = await bcrypt.compare(req.body.password, checking.password);
+        if (result) {
+            res.render("home");
         }
-
-        else {
-            res.send("incorrect password")
-        }
-
-
-    } 
-    
+        else
+            res.render("login");
+    }
     catch (e) {
 
         res.send("wrong details")
-        
+
 
     }
 
