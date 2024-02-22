@@ -1,14 +1,14 @@
 const express = require("express")
+const session = require('express-session');
 const path = require("path")
 const app = express()
-// import bcrypt from "bcrypt"
 const bcrypt = require('bcrypt');
 const { mongoConnect, User } = require("./mongo");
 const { log } = require("console");
 const port = process.env.PORT || 3000
 app.use(express.json())
-
 app.use(express.urlencoded({ extended: false }))
+
 
 const tempelatePath = path.join(__dirname, '../tempelates')
 const publicPath = path.join(__dirname, '../public')
@@ -19,7 +19,7 @@ app.set('views', tempelatePath)
 app.use(express.static(publicPath))
 
 
-// hbs.registerPartials(partialPath)
+
 mongoConnect()
 
 app.get('/signup', (req, res) => {
@@ -29,11 +29,9 @@ app.get('/', (req, res) => {
     res.render('login')
 })
 
+//middleware
 
 
-// app.get('/home', (req, res) => {
-//     res.render('home')
-// })
 
 app.post('/signup', async (req, res) => {
 
@@ -66,6 +64,7 @@ app.post('/signup', async (req, res) => {
 })
 
 
+
 app.post('/login', async (req, res) => {
     const checking = await User.findOne({ name: req.body.name })
     // console.log(req.body.password);
@@ -73,7 +72,7 @@ app.post('/login', async (req, res) => {
     try {
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
-            res.render("home");
+            res.render("home",{naming:req.body.name});
         }
         else
             res.render("login");
@@ -91,5 +90,5 @@ app.post('/login', async (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('port connected');
+    console.log('port connected $port');
 })
