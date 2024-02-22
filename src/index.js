@@ -18,14 +18,43 @@ app.set('view engine', 'hbs')
 app.set('views', tempelatePath)
 app.use(express.static(publicPath))
 
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false
+}));
 
+// Protected route
+app.get('/home', isAuthenticated, (req, res) => {
+    res.render('home');
+});
+
+
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+        }
+        res.redirect('/login');
+    });
+});
 
 mongoConnect()
 
 app.get('/signup', (req, res) => {
     res.render('signup')
 })
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login')
 })
 
@@ -72,10 +101,11 @@ app.post('/login', async (req, res) => {
     try {
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
+            req.session.user=true;
             res.render("home",{naming:req.body.name});
         }
         else
-            res.render("login");
+            res.redirect("/login");
     }
     catch (e) {
 
@@ -90,5 +120,5 @@ app.post('/login', async (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('port connected $port');
+    console.log("port connected  $port");
 })
