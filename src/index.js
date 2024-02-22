@@ -57,8 +57,12 @@ app.get('/signup', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('login')
 })
-
-//middleware
+app.get('/adminlogin',  (req, res) => {
+    res.render('adminlogin');
+});
+app.get('/admin',  (req, res) => {
+    res.render('admin');
+});
 
 
 
@@ -94,6 +98,20 @@ app.post('/signup', async (req, res) => {
 
 
 
+
+
+app.post('/adminlogin', (req, res) => {
+    
+   
+    if (req.body.name === "admin" && req.body.password === "admin") {
+        req.session.user = true;
+        res.redirect('/admin');
+    } else {
+        res.redirect('/adminlogin');
+    }
+});
+
+
 app.post('/login', async (req, res) => {
     const checking = await User.findOne({ name: req.body.name })
     // console.log(req.body.password);
@@ -109,7 +127,7 @@ app.post('/login', async (req, res) => {
     }
     catch (e) {
 
-        res.send("wrong details")
+        res.redirect("/login");
 
 
     }
