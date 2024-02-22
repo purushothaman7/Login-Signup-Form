@@ -1,4 +1,5 @@
 const express = require("express")
+const cors=require("cors")
 const session = require('express-session');
 const path = require("path")
 const app = express()
@@ -8,7 +9,7 @@ const { log } = require("console");
 const port = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
+app.use(cors())
 
 const tempelatePath = path.join(__dirname, '../tempelates')
 const publicPath = path.join(__dirname, '../public')
@@ -68,30 +69,34 @@ app.get('/admin',  (req, res) => {
 
 app.post('/signup', async (req, res) => {
 
-    const hash = await bcrypt.hash(req.body.password, 10)
+    const hash = await bcrypt.hash(req.body.pass, 10)
 
     const data = new User({
         name: req.body.name,
         password: hash
     })
 
-
+    console.log(req.body.name)
+    console.log(req.body.pass)
     try {
         const checking = await User.findOne({ name: req.body.name })
         if (checking) {
-            res.send("user details already exists")
+            res.json("exists")
         }
         else {
-            await data.save()
-            res.status(201).render("home", {
-                naming: req.body.name
-            })
+            // await data.save()
+            // res.status(201).render("home", {
+            //     naming: req.body.name
+            // })
+
+            res.json("notexist")
+            await User.insertMany([data])
         }
 
     }
     catch (err) {
         console.log(err);
-        res.render("signup")
+        // res.render("signup")
     }
 
 })
@@ -102,12 +107,13 @@ app.post('/signup', async (req, res) => {
 
 app.post('/adminlogin', (req, res) => {
     
-   
+   console.log(req.body.name)
+   console.log(req.body.password)
     if (req.body.name === "admin" && req.body.password === "admin") {
         req.session.user = true;
-        res.redirect('/admin');
+        res.json('exists');
     } else {
-        res.redirect('/adminlogin');
+        res.json('notexist');
     }
 });
 
@@ -119,15 +125,17 @@ app.post('/login', async (req, res) => {
     try {
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
-            req.session.user=true;
-            res.render("home",{naming:req.body.name});
+            res.json("exists")
+            // req.session.user=true;
+            // res.render("home",{naming:req.body.name});
         }
         else
-            res.redirect("/login");
+            res.json("notexist");
     }
     catch (e) {
 
-        res.redirect("/login");
+        // res.redirect("/login");
+        console.log(e)
 
 
     }
