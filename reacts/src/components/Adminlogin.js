@@ -14,10 +14,13 @@ export default function Adminlogin() {
 
     try{
 
-      await axios.post("http://localhost:3000/adminlogin",{name,password})
+      await axios.post("http://localhost:5000/adminlogin",{name,password})
       .then(res=>{
-        if(res.data=="exists"){
-          history('/admin')
+        if(res.data){
+          const token = res.data.token;
+          localStorage.setItem('token', token);
+         
+          history('/admin',{token:res.data})
         }
         else if(res.data=="notexist"){
           console.log("Credentails dont match")

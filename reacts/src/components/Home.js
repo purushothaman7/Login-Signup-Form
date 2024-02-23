@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom';
 export default function Home() {
+  const history=useNavigate()
+  useEffect(() => {
+    
+      try {
+        const token = localStorage.getItem('token'); // Retrieve token from local storage
+        if (!token) {
+          history('/')
+          
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error.response.data.error);
+      
+    };
+    
+  }, []);
   const location=useLocation();
   return (
     <div>

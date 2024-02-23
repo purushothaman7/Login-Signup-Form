@@ -12,9 +12,11 @@ export default function Login() {
 
     try{
 
-      await axios.post("http://localhost:3000/login",{name,password})
+      await axios.post("http://localhost:5000/login",{name,password})
       .then(res=>{
-        if(res.data=="exists"){
+        if(res.data){
+          const token = res.data.token;
+          localStorage.setItem('token', token);
           history('/home',{state:{id:name}})
         }
         else if(res.data=="notexist"){

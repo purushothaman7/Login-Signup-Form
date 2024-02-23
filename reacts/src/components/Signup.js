@@ -14,7 +14,7 @@ export default function Signup() {
         
         try{
             console.log("sending")
-            await axios.post("http://localhost:3000/signup",{name,pass})
+            await axios.post("http://localhost:5000/signup",{name,pass})
             .then(res =>{
               if(res.data==="exists"){
                 console.log("already exists")
