@@ -9,7 +9,7 @@ export default function Home() {
       try {
         const token = localStorage.getItem('token'); // Retrieve token from local storage
         if (!token) {
-          history('/')
+          history('/login')
           
         }
       } catch (error) {
