@@ -1,7 +1,7 @@
 const mongoose=require("mongoose")
 
 const mongoConnect = async() => {
-    await mongoose.connect("mongodb://127.0.0.1:27017/LoginFormPractice")
+    await mongoose.connect("mongodb+srv://purushothsolo:purushoth7@senti.bxms1hy.mongodb.net/?retryWrites=true&w=majority&appName=senti")
 .then(()=>{
     console.log('mongoose connected');
 })
