@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate  } from 'react-router-dom'
 import axios from 'axios'
 export default function Adminlogin() {
 
@@ -32,10 +32,17 @@ export default function Adminlogin() {
       console.log(e)
     }
   }
-
-
+ 
   return (
     <div>
+        
+          <a href="/login">
+          <button className="btn btn-light position-absolute top-0 start-0 m-3" >
+          <img width="30" height="30" src="https://img.icons8.com/ios/50/circled-left-2.png" alt="circled-left-2"></img>
+      
+      </button>
+          </a>
+   
     <section className="bg-light py-3 py-md-5">
     <div className="container">
       <div className="row justify-content-center">
