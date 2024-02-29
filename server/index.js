@@ -75,16 +75,16 @@ app.post('/addSubject', async (req, res) => {
         const sub = new User({
             roll: req.body.roll,
             subject : req.body.subject,
-            marks : req.body.marks
+            
         })
     
         console.log(req.body.subject)
         console.log(req.body.roll)
         try {
             const checking = await User.findOne({ roll: req.body.roll })
-            const subs = await User.findOne({ subject: req.body.subject })
-            if (checking && !subs) {
-                await sub.save()
+            // const subs = await User.findOne({ subject: req.body.subject })
+            if (checking && checking.subject!=req.body.subject) {
+                await User.updateOne({roll: req.body.roll},{$set: {subject:req.body.subject}})
                 res.json("success")
             }
             else {
@@ -108,17 +108,30 @@ app.post('/addSubject', async (req, res) => {
     try {
       const { marks } = req.body;
       const student = await User.findOne({roll: req.body.roll });
-      if (!student) 
-          return res.status(404).send('Student not found');
+      
+    //   const subs = await User.findOne({ student.subject: req.body.subject })
+    console.log(student.subject)
+    console.log(req.body.subject)
+      if (!student || student.subject!=req.body.subject) {
+        res.json('notsuccess');
+        console.log('alu')
+      }
+      
+        
     //   student.marks = marks;
-      let updates = await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
-    //   await student.save();
-    if(!updates){
-        res.send('notsuccess');
-    }
     else{
-        res.send('success');
+        await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
+        console.log("alu2")
+        res.json('success');
     }
+    //   let updates = await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
+    //   await student.save();
+    // if(!updates){
+    //     res.json('notsuccess');
+    // }
+    // else{
+    //     res.json('success');
+    // }
       
     } catch (error) {
       console.error(error);
@@ -174,7 +187,7 @@ app.post('/adminlogin', (req, res) => {
         const token = jwt.sign({ name: req.body.name }, "secret", {
             expiresIn: 86400 // expires in 24 hours
           });
-          console.log(token)
+        //   console.log(token)
         res.status(200).json({ token });
     } else {
         res.json('notexist');
@@ -185,7 +198,7 @@ app.post('/adminlogin', (req, res) => {
   app.get('/data', async (req, res) => {
     try {
       const data = await User.find();
-      console.log(data)
+    //   console.log(data)
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
