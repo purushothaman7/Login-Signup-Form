@@ -28,6 +28,7 @@ function App() {
       <Route path='/logout' element={<Login/>}></Route>
       <Route path='/home' element={<Home/>}></Route>
       <Route path='/update' element={<AddSubjectForm/>}></Route>
+      
       <Route path='/protected' element={<Protected/>}></Route>
     </Routes>
   </BrowserRouter>

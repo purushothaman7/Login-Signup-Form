@@ -66,8 +66,9 @@ const Admin = ({ token }) => {
       </table>
     </div>
         
-    
-      <AddSubjectForm />
+    <a href='/update'>
+      <button className='btn btn-primary'>Update Marks</button>
+      </a>
     </div>
   );
 };

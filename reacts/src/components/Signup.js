@@ -49,7 +49,7 @@ export default function Signup() {
                   <div className="col-12">
                     <div className="form-floating mb-3">
                       <input type="number" className="form-control" name="name" id="email" placeholder="Senti" required onChange={(e)=>setName(e.target.value)} ></input>
-                      <label htmlFor="text" className="form-label">Username</label>
+                      <label htmlFor="text" className="form-label">Roll no</label>
                     </div>
                   </div>
                   <div className="col-12">

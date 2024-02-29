@@ -75,7 +75,7 @@ app.post('/addSubject', async (req, res) => {
         const sub = new User({
             roll: req.body.roll,
             subject : req.body.subject,
-            marks : req.body.marks
+            
         })
     
         console.log(req.body.subject)
@@ -84,7 +84,7 @@ app.post('/addSubject', async (req, res) => {
             const checking = await User.findOne({ roll: req.body.roll })
             const subs = await User.findOne({ subject: req.body.subject })
             if (checking && !subs) {
-                await sub.save()
+                await sub.updateOne()
                 res.json("success")
             }
             else {
@@ -166,7 +166,7 @@ app.post('/adminlogin', (req, res) => {
         const token = jwt.sign({ name: req.body.name }, "secret", {
             expiresIn: 86400 // expires in 24 hours
           });
-          console.log(token)
+        //   console.log(token)
         res.status(200).json({ token });
     } else {
         res.json('notexist');
@@ -177,7 +177,7 @@ app.post('/adminlogin', (req, res) => {
   app.get('/data', async (req, res) => {
     try {
       const data = await User.find();
-      console.log(data)
+    //   console.log(data)
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });

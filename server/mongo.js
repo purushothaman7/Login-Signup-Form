@@ -17,9 +17,15 @@ const userSchema=new mongoose.Schema({
     },
     password:{
         type:String
-    },
-    marks: Number,
-    subject : String
+    },  
+    marks: {
+        type: Number, 
+        default: null,
+      },
+      subject: {
+        type: String, 
+        default: null,
+      }
 })
 
 const User=new mongoose.model('User',userSchema)
