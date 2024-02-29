@@ -106,7 +106,7 @@ app.post('/addSubject', async (req, res) => {
 
   app.post('/updateMarks', async (req, res) => {
     try {
-      const  marks  = req.body.marks;
+      const { marks } = req.body;
       const student = await User.findOne({roll: req.body.roll });
       if (!student) 
           return res.status(404).send('Student not found');

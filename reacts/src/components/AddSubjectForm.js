@@ -55,7 +55,7 @@ const AddSubjectForm = () => {
       <form onSubmit={handleAddSubject}>
         <input type="text" placeholder="Roll Number" name="roll" onChange={(e) => setroll(e.target.value)} />
         <input type="text" placeholder="Subject" name="subject" onChange={(e) => setSubject(e.target.value)} />
-        <input type="text" placeholder="Marks" name="marks" onChange={(e) => setMarks(e.target.value)} />
+       
         <button type="submit">Add Subject</button>
       </form>
       

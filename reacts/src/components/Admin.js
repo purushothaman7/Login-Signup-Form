@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AddSubjectForm from './AddSubjectForm';
+import Navbar from './Navbar';
 const Admin = ({ token }) => {
   const [data, setData] = useState([]);
   const history=useNavigate()
@@ -32,14 +33,40 @@ const Admin = ({ token }) => {
     fetchData();
   }, []);
 
+ 
+
   return (
     <div>
+      <Navbar />
       <h1>Welcome Admin</h1>
-      <ul>
-        {data.map(item => (
-          <li key={item._id}>{item.name}</li>
-        ))}
-      </ul>
+      
+     
+
+        
+      <div className="container">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Roll Number</th>
+            <th>Marks</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(item => (
+            <tr key={item._id}>
+              <td>{item.subject}</td>
+              <td>{item.roll}</td>
+              <td>{item.marks}</td>
+              
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+        
+    
       <AddSubjectForm />
     </div>
   );
