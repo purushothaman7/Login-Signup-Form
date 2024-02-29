@@ -16,7 +16,7 @@ export default function Adminlogin() {
 
       await axios.post("http://localhost:5000/adminlogin",{name,password})
       .then(res=>{
-        if(res.data){
+        if(res.data!="notexist"){
           const token = res.data.token;
           localStorage.setItem('token', token);
          

@@ -82,9 +82,9 @@ app.post('/addSubject', async (req, res) => {
         console.log(req.body.roll)
         try {
             const checking = await User.findOne({ roll: req.body.roll })
-            const subs = await User.findOne({ subject: req.body.subject })
-            if (checking && !subs) {
-                await sub.updateOne()
+            // const subs = await User.findOne({ subject: req.body.subject })
+            if (checking && checking.subject!=req.body.subject) {
+                await User.updateOne({roll: req.body.roll},{$set: {subject:req.body.subject}})
                 res.json("success")
             }
             else {
@@ -108,10 +108,31 @@ app.post('/addSubject', async (req, res) => {
     try {
       const { marks } = req.body;
       const student = await User.findOne({roll: req.body.roll });
-      if (!student) return res.status(404).send('Student not found');
-      student.marks = marks;
-      await student.save();
-      res.send('Marks updated successfully');
+      
+    //   const subs = await User.findOne({ student.subject: req.body.subject })
+    console.log(student.subject)
+    console.log(req.body.subject)
+      if (!student || student.subject!=req.body.subject) {
+        res.json('notsuccess');
+        console.log('alu')
+      }
+      
+        
+    //   student.marks = marks;
+    else{
+        await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
+        console.log("alu2")
+        res.json('success');
+    }
+    //   let updates = await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
+    //   await student.save();
+    // if(!updates){
+    //     res.json('notsuccess');
+    // }
+    // else{
+    //     res.json('success');
+    // }
+      
     } catch (error) {
       console.error(error);
       res.status(500).send('Server Error');
