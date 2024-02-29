@@ -105,11 +105,11 @@ app.post('/addSubject', async (req, res) => {
 
   app.post('/updateMarks', async (req, res) => {
     try {
-      const { marks } = req.body;
+     
       const student = await User.findOne({roll: req.body.roll });
       if (!student) return res.status(404).send('Student not found');
-      student.marks = marks;
-      await student.save();
+    //   student.marks = ;
+    //   await User.updateOne( { sub: req.body.subject }, { $set: { student.marks: req.body.marks} } ) 
       res.send('Marks updated successfully');
     } catch (error) {
       console.error(error);
