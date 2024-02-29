@@ -8,10 +8,17 @@ const AddSubjectForm = () => {
   const [marks, setMarks] = useState('');
 
   const handleAddSubject = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await axios.post('http://localhost:5000/addSubject', { roll, subject, marks });
-      alert('Subject added successfully');
+      await axios.post('http://localhost:5000/addSubject', { roll, subject, marks })
+      .then(res=>{
+        if(res.data="success"){
+          alert('Subject added successfully');
+        }
+        else{
+          alert('Subject not added successfully');
+        }
+      })
       setroll('');
       setSubject('');
       setMarks('');
@@ -24,7 +31,7 @@ const AddSubjectForm = () => {
   const handleUpdateMarks = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/updateMarks', { roll, marks });
+      await axios.post('http://localhost:5000/updateMarks', { roll,subject, marks });
       alert('Marks updated successfully');
       setroll('');
       setMarks('');
