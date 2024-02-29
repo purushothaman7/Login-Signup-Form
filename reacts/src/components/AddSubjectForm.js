@@ -12,7 +12,7 @@ const AddSubjectForm = () => {
     try {
       await axios.post('http://localhost:5000/addSubject', { roll, subject, marks })
       .then(res=>{
-        if(res.data="success"){
+        if(res.data=="success"){
           alert('Subject added successfully');
         }
         else{
@@ -31,8 +31,16 @@ const AddSubjectForm = () => {
   const handleUpdateMarks = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/updateMarks', { roll,subject, marks });
-      alert('Marks updated successfully');
+      await axios.post('http://localhost:5000/updateMarks', { roll,subject, marks })
+      .then(res=>{
+        if(res.data=="success"){
+          alert('Marks updated successfully');
+        }
+        else{
+          alert('Marks not updated successfully');
+        }
+      })
+      
       setroll('');
       setMarks('');
     } catch (error) {

@@ -114,10 +114,10 @@ app.post('/addSubject', async (req, res) => {
       let updates = await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
     //   await student.save();
     if(!updates){
-        res.send('Marks not updated successfully');
+        res.send('notsuccess');
     }
     else{
-        res.send('Marks updated successfully');
+        res.send('success');
     }
       
     } catch (error) {
