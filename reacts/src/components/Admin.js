@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AddSubjectForm from './AddSubjectForm';
 const Admin = ({ token }) => {
   const [data, setData] = useState([]);
   const history=useNavigate()
@@ -39,6 +40,7 @@ const Admin = ({ token }) => {
           <li key={item._id}>{item.name}</li>
         ))}
       </ul>
+      <AddSubjectForm />
     </div>
   );
 };

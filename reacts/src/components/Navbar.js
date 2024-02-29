@@ -4,10 +4,10 @@ export default function Navbar(){
     return(
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-     <a class="navbar-brand" href="#">
+     {/* <a class="navbar-brand" href="#">
         <img src="https://i.ibb.co/yRb6wBX/20240222-172942.png" alt="" width="127" height="63" class="d-inline-block align-text-center shadow-lg p-7 mb-0 bg-white rounded" ></img>
        
-      </a>
+      </a> */}
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

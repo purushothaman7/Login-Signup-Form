@@ -11,14 +11,15 @@ const mongoConnect = async() => {
 }
 
 const userSchema=new mongoose.Schema({
-    name:{
-        type:String,
+    roll:{
+        type:Number,
         required:true
     },
     password:{
-        type:String,
-        required:true
-    }
+        type:String
+    },
+    marks: Number,
+    subject : String
 })
 
 const User=new mongoose.model('User',userSchema)

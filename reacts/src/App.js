@@ -10,6 +10,7 @@ import Profile from './components/Profile.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Protected from './components/Protected';
+import AddSubjectForm from './components/AddSubjectForm';
 
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
       <Route path='/signup' element={<Signup/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/' element={<Login/>}></Route>
+      <Route path='/logout' element={<Login/>}></Route>
       <Route path='/home' element={<Home/>}></Route>
+      <Route path='/update' element={<AddSubjectForm/>}></Route>
       <Route path='/protected' element={<Protected/>}></Route>
     </Routes>
   </BrowserRouter>

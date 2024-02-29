@@ -6,8 +6,11 @@ const app = express()
 const bcrypt = require('bcrypt');
 const { mongoConnect, User } = require("./mongo");
 const { log } = require("console");
+const bodyParser = require('body-parser');
+
 const port = process.env.PORT || 5000
 app.use(express.json())
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
 const jwt = require('jsonwebtoken');
@@ -66,21 +69,67 @@ app.get('/admin',  (req, res) => {
     res.render('admin');
 });
 
+app.post('/addSubject', async (req, res) => {
+   
+    
+        const sub = new User({
+            roll: req.body.roll,
+            subject : req.body.subject,
+            marks : req.body.marks
+        })
+    
+        console.log(req.body.subject)
+        console.log(req.body.roll)
+        try {
+            const checking = await User.findOne({ roll: req.body.roll })
+            if (checking) {
+                await sub.save()
+                
+            }
+            else {
+                // await data.save()
+                // res.status(201).render("home", {
+                //     naming: req.body.name
+                // })
+                res.json("notexists")
+                
+            }
+    
+        }
+        catch (err) {
+            console.log(err);
+            // res.render("signup")
+        }
+    
+  });
 
+  app.post('/updateMarks', async (req, res) => {
+    try {
+      const { marks } = req.body;
+      const student = await User.findOne({roll: req.body.roll });
+      if (!student) return res.status(404).send('Student not found');
+      student.marks = marks;
+      await student.save();
+      res.send('Marks updated successfully');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Server Error');
+    }
+  });
 
 app.post('/signup', async (req, res) => {
 
     const hash = await bcrypt.hash(req.body.pass, 10)
-
+console.log(req.body.name);
     const data = new User({
-        name: req.body.name,
+        roll: req.body.name,
         password: hash
     })
 
-    console.log(req.body.name)
-    console.log(req.body.pass)
+    // console.log(req.body.name)
+    // console.log(req.body.pass)
     try {
-        const checking = await User.findOne({ name: req.body.name })
+        const checking = await User.findOne({ roll: req.body.name })
         if (checking) {
             res.json("exists")
         }
@@ -136,13 +185,14 @@ app.post('/adminlogin', (req, res) => {
   
 
 app.post('/login', async (req, res) => {
-    const checking = await User.findOne({ name: req.body.name })
+    // console.log( req.body.name);
+    const checking = await User.findOne({ roll: req.body.name })
     // console.log(req.body.password);
     // console.log(checking.password);
     try {
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
-            const token = jwt.sign({ name: req.body.name }, "secret");
+            const token = jwt.sign({ roll: req.body.name }, "secret");
             res.json({ token });
             // res.json("exists")
             // req.session.user=true;
