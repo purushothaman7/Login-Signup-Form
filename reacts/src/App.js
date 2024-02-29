@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Admin from './components/Admin'
 import Adminlogin from './components/Adminlogin'
 import Home from './components/Home'
+import Update from './components/Update';
 import Marks from './components/Marks';
 import Profile from './components/Profile.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
@@ -27,8 +28,7 @@ function App() {
       <Route path='/' element={<Login/>}></Route>
       <Route path='/logout' element={<Login/>}></Route>
       <Route path='/home' element={<Home/>}></Route>
-      <Route path='/update' element={<AddSubjectForm/>}></Route>
-      
+      <Route path='/update' element={<Update/>}></Route>
       <Route path='/protected' element={<Protected/>}></Route>
     </Routes>
   </BrowserRouter>
