@@ -59,6 +59,9 @@ app.get('/signup', (req, res) => {
     res.render('signup')
 })
 app.get('/login', (req, res) => {
+    req.customData = {
+        roll: req.body.roll
+      };
     res.render('login')
 })
 app.get('/adminlogin',  (req, res) => {
@@ -197,25 +200,54 @@ app.post('/adminlogin', (req, res) => {
 
   app.get('/data', async (req, res) => {
     try {
+        
       const data = await User.find();
-    //   console.log(data)
+      // console.log(data)
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+
   
 
+
+  // app.get('/profile', isAuthenticated, (req, res) => {
+  //   // Access roll number from token stored in memory
+  //   const token = req.headers.authorization.split(' ')[1];
+  //   console.log("work")
+  //   const rollNo = rollNumbers[token];
+  //   if (!rollNo) return res.status(404).json({ message: 'Roll number not found' });
+  
+  //    res.json({ rollNo });
+  // });
+
+  var rollNumbers="";
+  app.get('/profile', async (req, res) => {
+    try {
+        const roll =  rollNumbers;
+      res.status(200).json(roll);
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+
 app.post('/login', async (req, res) => {
+  console.log("senti1");
     // console.log( req.body.name);
     const checking = await User.findOne({ roll: req.body.name })
     // console.log(req.body.password);
     // console.log(checking.password);
+    
     try {
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
             const token = jwt.sign({ roll: req.body.name }, "secret");
+            rollNumbers = req.body.name;
             res.json({ token });
+            // res.json(req.body.roll)
+           
             // res.json("exists")
             // req.session.user=true;
             // res.render("home",{naming:req.body.name});

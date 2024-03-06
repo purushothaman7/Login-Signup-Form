@@ -1,10 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import studentImage from '../lethal.jpg'; 
-import Navbar from './Navbar';
 
-export default function Profile () {
- 
+import Navbar from './Navbar';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+export default function Profile() {
+
   const student = {
     id: 1,
     name: 'Raajan',
@@ -15,25 +17,49 @@ export default function Profile () {
     phone: '+44444444'
   };
 
+
+
+   let [currentRoll, setCurrentRoll] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/profile');
+        console.log("senti");
+        
+        setCurrentRoll(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+   
+    };
+    fetchData();
+    
+  }, []);
+  
+const imageUrl = `https://www.rajalakshmi.org/QRCode/img/${currentRoll}.jpg`;
   return (
     <>
-    <Navbar />
-    <div className="container mt-4">
-      <div className="card">
-        <h5 className="card-header bg-primary text-white">Student Profile</h5>
-        <div className="card-body">
-         
-          <img src={studentImage} className="img-fluid rounded-circle mb-3" alt="Student" style={{ width: '150px' }} />
-          <h5 className="card-title">Name: {student.name}</h5>
-          <p className="card-text">Email: {student.email}</p>
-          <p className="card-text">Grade: {student.grade}</p>
-          <p className="card-text">Subjects: {student.subjects.join(', ')}</p>
-          <p className="card-text">Address: {student.address}</p>
-          <p className="card-text">Phone: {student.phone}</p>
-         
+ 
+      <Navbar />
+     
+      <div className="container mt-4">
+        <div className="card">
+          <h5 className="card-header bg-primary text-white">Student Profile</h5>
+          <div className="card-body">
+            <div > 
+            <img class="img-fluid" src={imageUrl} alt="IDCARDPhoto" style={{"width":"130px"}}></img></div> 
+            <br></br>
+            <h5 className="card-title">Name: {student.name}</h5>
+            <p className="card-text">Email: {student.mail}</p>
+            <p className="card-text">Grade: {student.marks}</p>
+            <p className="card-text">Subjects: {student.subjects.join(', ')}</p>
+            <p className="card-text">Address: {student.password}</p>
+            <p className="card-text">Phone: {student.phone}</p>
+
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

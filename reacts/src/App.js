@@ -30,6 +30,7 @@ function App() {
       <Route path='/home' element={<Home/>}></Route>
       <Route path='/update' element={<Update/>}></Route>
       <Route path='/protected' element={<Protected/>}></Route>
+      <Route path='/profile' element={<Profile/>}></Route>
     </Routes>
   </BrowserRouter>
     </div>
