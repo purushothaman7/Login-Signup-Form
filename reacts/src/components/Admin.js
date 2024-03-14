@@ -69,6 +69,10 @@ const Admin = ({ token }) => {
     <a href='/update'>
       <button className='btn btn-primary'>Update Marks</button>
       </a>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 };

@@ -11,6 +11,7 @@ import Profile from './components/Profile.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Protected from './components/Protected';
+import Todo from './components/Todo';
 import AddSubjectForm from './components/AddSubjectForm';
 
 
@@ -31,6 +32,8 @@ function App() {
       <Route path='/update' element={<Update/>}></Route>
       <Route path='/protected' element={<Protected/>}></Route>
       <Route path='/profile' element={<Profile/>}></Route>
+      <Route path='/todos' element={<Todo />}></Route>
+      <Route path='/marks' element={<Marks />}></Route>
     </Routes>
   </BrowserRouter>
     </div>

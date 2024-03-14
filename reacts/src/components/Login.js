@@ -14,7 +14,7 @@ export default function Login() {
 
       await axios.post("http://localhost:5000/login",{name,password})
       .then(res=>{
-        if(res.data){
+        if(res.data!="notexist"){
           const token = res.data.token;
           localStorage.setItem('token', token);
           history('/home',{state:{id:name}})

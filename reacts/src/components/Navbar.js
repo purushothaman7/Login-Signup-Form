@@ -16,7 +16,7 @@ export default function Navbar(){
           <a className="nav-link active" aria-current="page" href="/home">Home</a>
           <a className="nav-link" href="/marks">Marks</a>
           <a className="nav-link" href="/profile">Profile</a>
-          <a className="nav-link " href="#" >todo</a>
+          <a className="nav-link " href="/todos" >todo</a>
           <a className="nav-link btn btn-danger start-100" href="/logout"> Logout</a>
         </div>
       </div>

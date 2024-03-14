@@ -54,7 +54,11 @@ app.get('/logout', (req, res) => {
 });
 
 mongoConnect()
+let todos = [];
 
+app.get('/todos', (req, res) => {
+  res.json(todos);
+});
 app.get('/signup', (req, res) => {
     res.render('signup')
 })
@@ -87,7 +91,7 @@ app.post('/addSubject', async (req, res) => {
             const checking = await User.findOne({ roll: req.body.roll })
             // const subs = await User.findOne({ subject: req.body.subject })
             if (checking && checking.subject!=req.body.subject) {
-                await User.updateOne({roll: req.body.roll},{$set: {subject:req.body.subject}})
+                await User.insertMany({roll:req.body.roll,subject:req.body.subject})
                 res.json("success")
             }
             else {
@@ -107,14 +111,34 @@ app.post('/addSubject', async (req, res) => {
     
   });
 
+  app.post('/todos', (req, res) => {
+    const { text } = req.body;
+    const newTodo = {
+      id: Date.now(),
+      text,
+      completed: false
+    };
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+  });
+  
+  app.delete('/todos/:id', (req, res) => {
+    const { id } = req.params;
+    todos = todos.filter(todo => todo.id !== parseInt(id));
+    res.status(200).json({ message: 'Todo deleted successfully' });
+  });
+
+
   app.post('/updateMarks', async (req, res) => {
     try {
-      const { marks } = req.body;
-      const student = await User.findOne({roll: req.body.roll });
+      console.log(req.body.marks)
+      console.log(req.body.roll)
+      console.log(req.body.subject)
+      const student = await User.findOne({roll: req.body.roll,subject:req.body.subject});
       
     //   const subs = await User.findOne({ student.subject: req.body.subject })
-    console.log(student.subject)
-    console.log(req.body.subject)
+    // console.log(student.subject)
+    
       if (!student || student.subject!=req.body.subject) {
         res.json('notsuccess');
         console.log('alu')
@@ -123,7 +147,7 @@ app.post('/addSubject', async (req, res) => {
         
     //   student.marks = marks;
     else{
-        await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
+        await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:req.body.marks}})
         console.log("alu2")
         res.json('success');
     }
@@ -148,9 +172,10 @@ app.post('/signup', async (req, res) => {
 console.log(req.body.name);
     const data = new User({
         roll: req.body.name,
-        password: hash
+        password: hash,
+        name : req.body.roll
     })
-
+    studName=req.body.roll;
     // console.log(req.body.name)
     // console.log(req.body.pass)
     try {
@@ -223,16 +248,28 @@ app.post('/adminlogin', (req, res) => {
   // });
 
   var rollNumbers="";
+  var studName="";
   app.get('/profile', async (req, res) => {
     try {
-        const roll =  rollNumbers;
-      res.status(200).json(roll);
+        var roll =  rollNumbers;
+        var name=studName;
+      res.status(200).json({roll:roll,name:name});
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
 
-
+app.get('/marks',async(req,res)=>{
+  try {
+    var roll =  rollNumbers;
+    var name=studName;
+    var mark=await User.find({roll:rollNumbers})
+  
+  res.status(200).json({mark});
+} catch (error) {
+  res.status(500).json({ error: 'Internal server error' });
+}
+});
 app.post('/login', async (req, res) => {
   console.log("senti1");
     // console.log( req.body.name);
@@ -245,7 +282,10 @@ app.post('/login', async (req, res) => {
         if (result) {
             const token = jwt.sign({ roll: req.body.name }, "secret");
             rollNumbers = req.body.name;
+            
+         
             res.json({ token });
+
             // res.json(req.body.roll)
            
             // res.json("exists")

@@ -25,7 +25,15 @@ const userSchema=new mongoose.Schema({
       subject: {
         type: String, 
         default: null,
-      }
+      },
+      name : {
+        type:String,
+        default:null,
+      },
+      dept : {
+        type:String,
+        default:null,
+      },
 })
 
 const User=new mongoose.model('User',userSchema)
