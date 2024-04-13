@@ -270,6 +270,8 @@ app.get('/marks',async(req,res)=>{
   res.status(500).json({ error: 'Internal server error' });
 }
 });
+
+
 app.post('/login', async (req, res) => {
   console.log("senti1");
     // console.log( req.body.name);

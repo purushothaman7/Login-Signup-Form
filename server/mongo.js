@@ -10,35 +10,35 @@ const mongoConnect = async() => {
 })
 }
 
-const userSchema=new mongoose.Schema({
-    roll:{
-        type:Number,
-        required:true
-    },
-    password:{
-        type:String
-    },  
-    marks: {
-        type: Number, 
-        default: null,
+  const userSchema=new mongoose.Schema({
+      roll:{
+          type:Number,
+          required:true
       },
-      subject: {
-        type: String, 
-        default: null,
-      },
-      name : {
-        type:String,
-        default:null,
-      },
-      dept : {
-        type:String,
-        default:null,
-      },
-})
+      password:{
+          type:String
+      },  
+      marks: {
+          type: Number, 
+          default: null,
+        },
+        subject: {
+          type: String, 
+          default: null,
+        },
+        name : {
+          type:String,
+          default:null,
+        },
+        dept : {
+          type:String,
+          default:null,
+        },
+  })
 
-const User=new mongoose.model('User',userSchema)
+  const User=new mongoose.model('User',userSchema)
 
-module.exports={
-    mongoConnect ,
-    User
-}
+  module.exports={
+      mongoConnect ,
+      User
+  }

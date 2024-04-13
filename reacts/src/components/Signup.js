@@ -66,7 +66,7 @@ export default function Signup() {
                       <label htmlFor="password" className="form-label">Password</label>
                     </div>
                   </div>
-                
+                  
                   <div className="col-12">
                     <div className="d-grid my-3">
                       <button className="btn btn-primary btn-lg" type="submit" onClick={submit}>Sign Up</button>
