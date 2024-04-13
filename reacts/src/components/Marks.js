@@ -7,6 +7,7 @@ import axios from 'axios';
 
 export default function Marks(){
   const [marks, setMarks] = useState([]);
+  const [subject, setSubject] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,6 +15,10 @@ export default function Marks(){
         const response = await axios.get('http://localhost:5000/marks');
         console.log('Response data:', response.data);
         if (Array.isArray(response.data.mark)) {
+        
+            const allSubjects = response.data.mark.map(item => item.subject);
+            console.log(allSubjects)
+            setSubject(allSubjects);
           const allMarks = response.data.mark.map(item => item.marks);
           setMarks(allMarks);
         } 
@@ -37,11 +42,16 @@ export default function Marks(){
     {marks.length === 1 ? (
       <p className="alert alert-warning">No marks available for this student.</p>
     ) : (
-      <ul className="list-group">
-        {marks.map((mark, index) => (
-          <li key={index} className="list-group-item">Marks: {mark}</li>
-        ))}
-      </ul>
+
+      <ul className="list-group p-2 ">
+      {subject.map((subject, index) => (
+        <li key={index} className="list-group-item d-flex justify-content-between">
+          <span>Subject: {subject}</span>
+          
+          <span>Marks: {marks[index]}</span>
+        </li>
+      ))}
+    </ul>
     )}
   </div>
   </>
