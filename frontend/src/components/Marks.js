@@ -35,7 +35,7 @@ export default function Marks(){
   }, []);
 
   return (<>
-    <Navbar/>
+   
     <div className="container">
     
     <h1 className="my-4">Marks from Various Subjects</h1>

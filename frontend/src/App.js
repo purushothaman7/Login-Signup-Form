@@ -13,6 +13,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Protected from './components/Protected';
 import Todo from './components/Todo';
 import AddSubjectForm from './components/AddSubjectForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AboutUs from './components/AboutUs';
 
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
       <Route path='/profile' element={<Profile/>}></Route>
       <Route path='/todos' element={<Todo />}></Route>
       <Route path='/marks' element={<Marks />}></Route>
+      <Route path='/about' element={<AboutUs />}></Route>
     </Routes>
   </BrowserRouter>
     </div>
