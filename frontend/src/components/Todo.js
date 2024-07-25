@@ -7,8 +7,11 @@ import Navbar from './Navbar';
 export default function Todo(){
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState('');
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
+    const storedUsername = localStorage.getItem('Uname');
+    setUsername(storedUsername);
     fetchTodos();
   }, []);
 
@@ -19,7 +22,7 @@ export default function Todo(){
 
   const addTodo = async () => {
     if (text.trim() !== '') {
-      const response = await axios.post('http://localhost:5000/todos', { text });
+      const response = await axios.post('http://localhost:5000/todos', { text,username });
       setTodos([...todos, response.data]);
       setText('');
     }
@@ -52,6 +55,7 @@ export default function Todo(){
       {todos.map(todo => (
         <li className="list-group-item d-flex justify-content-between align-items-center" key={todo.id}>
           {todo.text}
+          <p>-{username}</p>
           <button className="btn btn-danger btn-sm" onClick={() => deleteTodo(todo.id)}>Delete</button>
         </li>
       ))}

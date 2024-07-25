@@ -1,4 +1,4 @@
-import logo from "../public/home.png"
+import logo from "../components/home.png"
 import React from 'react';
 import about from "./AboutUs";
 import 'bootstrap/dist/css/bootstrap.min.css';

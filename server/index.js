@@ -53,7 +53,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-mongoConnect()
+mongoConnect();
 let todos = [];
 
 app.get('/todos', (req, res) => {
@@ -112,10 +112,11 @@ app.post('/addSubject', async (req, res) => {
   });
 
   app.post('/todos', (req, res) => {
-    const { text } = req.body;
+    const { text,username } = req.body;
     const newTodo = {
       id: Date.now(),
       text,
+      username,
       completed: false
     };
     todos.push(newTodo);
@@ -131,9 +132,6 @@ app.post('/addSubject', async (req, res) => {
 
   app.post('/updateMarks', async (req, res) => {
     try {
-      console.log(req.body.marks)
-      console.log(req.body.roll)
-      console.log(req.body.subject)
       const student = await User.findOne({roll: req.body.roll,subject:req.body.subject});
       
     //   const subs = await User.findOne({ student.subject: req.body.subject })
@@ -141,14 +139,12 @@ app.post('/addSubject', async (req, res) => {
     
       if (!student || student.subject!=req.body.subject) {
         res.json('notsuccess');
-        console.log('alu')
       }
       
         
     //   student.marks = marks;
     else{
         await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:req.body.marks}})
-        console.log("alu2")
         res.json('success');
     }
     //   let updates = await User.updateOne({roll: req.body.roll, subject:req.body.subject},{$set: {marks:marks}})
@@ -169,7 +165,7 @@ app.post('/addSubject', async (req, res) => {
 app.post('/signup', async (req, res) => {
 
     const hash = await bcrypt.hash(req.body.pass, 10)
-console.log(req.body.name);
+
     const data = new User({
         roll: req.body.name,
         password: hash,
@@ -273,20 +269,23 @@ app.get('/marks',async(req,res)=>{
 
 
 app.post('/login', async (req, res) => {
-  console.log("senti1");
+  try {
     // console.log( req.body.name);
     const checking = await User.findOne({ roll: req.body.name })
     // console.log(req.body.password);
     // console.log(checking.password);
+  
+  
     
     try {
+      if(checking){
         const result = await bcrypt.compare(req.body.password, checking.password);
         if (result) {
             const token = jwt.sign({ roll: req.body.name }, "secret");
             rollNumbers = req.body.name;
             
          
-            res.json({ token });
+            res.json({ token ,rollNumbers});
 
             // res.json(req.body.roll)
            
@@ -296,6 +295,7 @@ app.post('/login', async (req, res) => {
         }
         else
             res.json("notexist");
+      }
     }
     catch (e) {
 
@@ -304,6 +304,10 @@ app.post('/login', async (req, res) => {
 
 
     }
+  }
+  catch(e){
+    console.log(e);
+  }
 
 
 })

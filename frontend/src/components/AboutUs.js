@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import me from "../public/me.JPG";
-import sai from "../public/sai.JPG";
+import me from "../components/me.JPG";
+import sai from "../components/sai.JPG";
 import Navbar from './Navbar';
 
 const TeamMember = ({ imgSrc, name, description, email, linkedin }) => (

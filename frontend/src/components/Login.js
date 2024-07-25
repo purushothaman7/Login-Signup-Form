@@ -17,6 +17,8 @@ export default function Login() {
         if(res.data!="notexist"){
           const token = res.data.token;
           localStorage.setItem('token', token);
+
+          localStorage.setItem('Uname',res.data.rollNumbers);
           history('/home',{state:{id:name}})
         }
         else if(res.data=="notexist"){
