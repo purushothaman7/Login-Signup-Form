@@ -1,14 +1,25 @@
-import logo from "../components/home.png"
-import React from 'react';
-import about from "./AboutUs";
+import React, { useEffect } from 'react';
+import ScrollReveal from 'scrollreveal';
+import logo from "../components/home.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min'; // For Bootstrap JS components
 
 const LandingPage = () => {
+
+  useEffect(() => {
+    ScrollReveal().reveal('.reveal', {
+      origin: 'bottom',
+      distance: '20px',
+      duration: 1000,
+      easing: 'ease-in-out',
+      interval: 200,
+    });
+  }, []);
+
   return (
     <div className="container mt-5">
       {/* Hero Section */}
-      <div className="row justify-content-center">
+      <div className="row justify-content-center reveal">
         <div className="col-md-10">
           <div className="card mb-4">
             <div className="row g-0">
@@ -22,7 +33,7 @@ const LandingPage = () => {
                 </div>
               </div>
               <div className="col-md-12">
-                <img src={logo}className="img-fluid rounded-end" alt="Student Portal" />
+                <img src={logo} className="img-fluid rounded-end" alt="Student Portal" />
               </div>
             </div>
           </div>
@@ -30,7 +41,7 @@ const LandingPage = () => {
       </div>
 
       {/* Features Section */}
-      <div className="row text-center mt-5">
+      <div className="row text-center mt-5 reveal">
         <div className="col-md-4">
           <div className="card mb-4">
             <div className="card-body">
@@ -56,7 +67,7 @@ const LandingPage = () => {
             <div className="card-body">
               <h2 className="card-title">To-Do List</h2>
               <p className="card-text">
-                Keep track of your tasks and stay organized by using TODO List
+                Keep track of your tasks and stay organized by using TODO List.
               </p>
             </div>
           </div>
@@ -64,7 +75,7 @@ const LandingPage = () => {
       </div>
 
       {/* Testimonials Carousel */}
-      <div id="testimonialsCarousel" className="carousel slide mt-5" data-bs-ride="carousel">
+      <div id="testimonialsCarousel" className="carousel slide mt-5 reveal" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
             <div className="d-block w-100 text-center p-4 bg-primary text-white">
@@ -98,7 +109,7 @@ const LandingPage = () => {
         </button>
       </div>
 
-      <footer className="text-center mt-5">
+      <footer className="text-center mt-5 reveal">
         <p>&copy; 2024 Student Portal. All rights reserved.</p>
       </footer>
     </div>
